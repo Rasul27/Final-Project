@@ -1,2 +1,78 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+// Define a structure for storing order details
+struct Order {
+    string customerName;
+    string productName;
+    string status;
+    string trackingNumber;
+};
+
+// Define a struct for the order tracker
+struct OrderTracker {
+    vector<Order> orders; // Vector to store orders
+
+    // Function to add a new order
+    void addOrder(const Order& order) {
+        orders.push_back(order);
+    }
+
+    // Function to update order status
+    void updateStatus(int index, const string& newStatus) {
+        if (index >= 0 && index < orders.size()) {
+            orders[index].status = newStatus;
+        } else {
+            cout << "Invalid order index." << endl;
+        }
+    }
+
+    // Function to update delivery tracking number
+    void updateTrackingNumber(int index, const string& newTrackingNumber) {
+        if (index >= 0 && index < orders.size()) {
+            orders[index].trackingNumber = newTrackingNumber;
+        } else {
+            cout << "Invalid order index." << endl;
+        }
+    }
+
+    // Function to display all orders
+    void displayOrders() {
+        cout << "Customer Name\tProduct Name\tStatus\t\tTracking Number" << endl;
+        for (const auto& order : orders) {
+            cout << order.customerName << "\t\t" << order.productName << "\t\t" << order.status << "\t\t" << order.trackingNumber << endl;
+        }
+    }
+};
+
+int main() {
+    OrderTracker tracker;
+
+    // Adding sample orders
+    Order order1 = {"John Doe", "Smartphone", "Processing", "123456789"};
+    Order order2 = {"Alice Smith", "Laptop", "Shipped", "987654321"};
+    Order order3 = {"Bob Brown", "Tablet", "Delivered", "456789123"};
+
+    tracker.addOrder(order1);
+    tracker.addOrder(order2);
+    tracker.addOrder(order3);
+
+    // Displaying all orders
+    cout << "Initial Orders:" << endl;
+    tracker.displayOrders();
+
+    // Updating status of an order
+    tracker.updateStatus(0, "Shipped");
+
+    // Updating tracking number of an order
+    tracker.updateTrackingNumber(0, "555555555");
+
+    // Displaying orders after update
+    cout << "\nOrders after status and tracking update:" << endl;
+    tracker.displayOrders();
+
+    return 0;
+}
