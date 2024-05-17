@@ -52,7 +52,7 @@ struct OrderTracker {
     // Вывод заказов на дисплей
     void displayOrders() {
         cout << "Index\tCustomer Name\tProduct Name\tStatus\t\tTracking Number" << endl;
-        for (size_t i = 0; i < orders.size(); ++i) {
+        for (int i = 0; i < orders.size(); ++i) {
             cout << i << "\t" << orders[i].customerName << "\t\t" << orders[i].productName << "\t\t" << orders[i].status << "\t\t" << orders[i].trackingNumber << endl;
         }
     }
