@@ -5,7 +5,6 @@
 
 using namespace std;
 
-// Определение структуры для заказа
 struct Order {
     string customerName;
     string productName;
@@ -13,16 +12,13 @@ struct Order {
     string trackingNumber;
 };
 
-// Определение структуры для заказа трекера
 struct OrderTracker {
-    vector<Order> orders; // Vector to store orders
+    vector<Order> orders;
 
-    // Функция добавления нового заказа
     void addOrder(const Order& order) {
         orders.push_back(order);
     }
 
-    // Функция обновления заказа
     void updateStatus(int index, const string& newStatus) {
         if (index >= 0 && index < orders.size()) {
             orders[index].status = newStatus;
@@ -31,7 +27,6 @@ struct OrderTracker {
         }
     }
 
-    // Функция обновления номера заказа
     void updateTrackingNumber(int index, const string& newTrackingNumber) {
         if (index >= 0 && index < orders.size()) {
             orders[index].trackingNumber = newTrackingNumber;
@@ -40,7 +35,6 @@ struct OrderTracker {
         }
     }
 
-    // Функция удаления заказа
     void deleteOrder(int index) {
         if (index >= 0 && index < orders.size()) {
             orders.erase(orders.begin() + index);
@@ -49,59 +43,46 @@ struct OrderTracker {
         }
     }
 
-    // Вывод заказов на дисплей
     void displayOrders() {
-        cout << "Index\tCustomer Name\tProduct Name\tStatus\t\tTracking Number" << endl;
         for (int i = 0; i < orders.size(); ++i) {
-            cout << i << "\t" << orders[i].customerName << "\t\t" << orders[i].productName << "\t\t" << orders[i].status << "\t\t" << orders[i].trackingNumber << endl;
+            cout << i << ". " << orders[i].customerName << " | "
+                             << orders[i].productName << " | "
+                             << orders[i].status << " | "
+                             << orders[i].trackingNumber << endl;
         }
     }
 
-    // Сохранение заказов в файле
     void saveToFile(const string& filename) {
         ofstream file(filename);
-        if (file.is_open()) {
+        if (file) {
             for (const auto& order : orders) {
-                file << order.customerName << "," << order.productName << "," << order.status << "," << order.trackingNumber << endl;
+                file << order.customerName << "," << order.productName << ","
+                     << order.status << "," << order.trackingNumber << endl;
             }
-            file.close();
+            cout << "Orders saved to " << filename << "." << endl;
         } else {
-            cout << "Unable to open file for writing." << endl;
+            cout << "Failed to save orders to file." << endl;
         }
+        file.close();
     }
 
-    // Функция загрузки заказов из файлов 
     void loadFromFile(const string& filename) {
         ifstream file(filename);
-        if (file.is_open()) {
-            orders.clear();
-            string line;
-            while (getline(file, line)) {
-                Order order;
-                size_t pos = 0;
-                pos = line.find(',');
-                order.customerName = line.substr(0, pos);
-                line.erase(0, pos + 1);
-
-                pos = line.find(',');
-                order.productName = line.substr(0, pos);
-                line.erase(0, pos + 1);
-
-                pos = line.find(',');
-                order.status = line.substr(0, pos);
-                line.erase(0, pos + 1);
-
-                order.trackingNumber = line;
-
+        if (file) {
+            Order order;
+            while (getline(file, order.customerName, ',') &&
+                   getline(file, order.productName, ',') &&
+                   getline(file, order.status, ',') &&
+                   getline(file, order.trackingNumber)) {
                 orders.push_back(order);
             }
-            file.close();
+            cout << "Orders loaded from " << filename << "." << endl;
         } else {
-            cout << "Unable to open file for reading." << endl;
+            cout << "Failed to load orders from file." << endl;
         }
+        file.close();
     }
 };
-
 
 int main() {
     OrderTracker tracker;
@@ -110,53 +91,52 @@ int main() {
 
     int choice;
     do {
-        cout << "\nMenu:\n";
-        cout << "1. Add Order\n";
-        cout << "2. Update Status\n";
-        cout << "3. Update Tracking Number\n";
-        cout << "4. Delete Order\n";
-        cout << "5. Display Orders\n";
-        cout << "6. Save and Exit\n";
-        cout << "Enter your choice: ";
+        cout << "\nMenu:\n"
+                "1. Add Order\n"
+                "2. Update Status\n"
+                "3. Update Tracking Number\n"
+                "4. Delete Order\n"
+                "5. Display Orders\n"
+                "6. Save and Exit\n"
+                "Enter your choice: ";
         cin >> choice;
 
         switch (choice) {
             case 1: {
                 Order newOrder;
-                cout << "Enter customer name: ";
+                cout << "Enter order details:\n";
+                cout << "Customer Name: ";
                 cin >> newOrder.customerName;
-                cout << "Enter product name: ";
+                cout << "Product Name: ";
                 cin >> newOrder.productName;
-                cout << "Enter status: ";
+                cout << "Status: ";
                 cin >> newOrder.status;
-                cout << "Enter tracking number: ";
+                cout << "Tracking Number: ";
                 cin >> newOrder.trackingNumber;
                 tracker.addOrder(newOrder);
                 break;
-            }
+    }
+
+
             case 2: {
                 int index;
                 string newStatus;
-                cout << "Enter order index: ";
-                cin >> index;
-                cout << "Enter new status: ";
-                cin >> newStatus;
+                cout << "Enter order index and new status: ";
+                cin >> index >> newStatus;
                 tracker.updateStatus(index, newStatus);
                 break;
             }
             case 3: {
                 int index;
                 string newTrackingNumber;
-                cout << "Enter order index: ";
-                cin >> index;
-                cout << "Enter new tracking number: ";
-                cin >> newTrackingNumber;
+                cout << "Enter order index and new tracking number: ";
+                cin >> index >> newTrackingNumber;
                 tracker.updateTrackingNumber(index, newTrackingNumber);
                 break;
             }
             case 4: {
                 int index;
-                cout << "Enter order index: ";
+                cout << "Enter order index to delete: ";
                 cin >> index;
                 tracker.deleteOrder(index);
                 break;
@@ -166,7 +146,6 @@ int main() {
                 break;
             case 6:
                 tracker.saveToFile(filename);
-                cout << "Orders saved to " << filename << ". Exiting..." << endl;
                 break;
             default:
                 cout << "Invalid choice. Please try again." << endl;
