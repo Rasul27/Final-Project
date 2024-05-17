@@ -57,7 +57,7 @@ struct OrderTracker {
         }
     }
 
-    // Сохранение заказов в файлах
+    // Сохранение заказов в файле
     void saveToFile(const string& filename) {
         ofstream file(filename);
         if (file.is_open()) {
@@ -101,6 +101,7 @@ struct OrderTracker {
         }
     }
 };
+
 
 int main() {
     OrderTracker tracker;
