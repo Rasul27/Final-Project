@@ -102,20 +102,22 @@ int main() {
         cin >> choice;
 
         switch (choice) {
-            case 1: {
+          case 1: {
                 Order newOrder;
                 cout << "Enter order details:\n";
                 cout << "Customer Name: ";
-                cin >> newOrder.customerName;
+                cin.ignore();  // Ignore the newline character in the input buffer
+                getline(cin, newOrder.customerName);
                 cout << "Product Name: ";
-                cin >> newOrder.productName;
+                getline(cin, newOrder.productName);
                 cout << "Status: ";
-                cin >> newOrder.status;
+                getline(cin, newOrder.status);
                 cout << "Tracking Number: ";
-                cin >> newOrder.trackingNumber;
+                getline(cin, newOrder.trackingNumber);
                 tracker.addOrder(newOrder);
                 break;
-    }
+            }
+
 
 
             case 2: {
