@@ -27,9 +27,50 @@ It allows users to add new orders, update order status and tracking numbers, del
  -  Proper input validation to handle invalid user input.
  -  Use of appropriate data structures such as vectors to store orders.
 ## Documentation:
-## Purpose:
-  - The purpose of this project is to provide a simple and efficient way for businesses to manage their orders. It streamlines the process of adding, updating, and deleting orders, and provides a convenient way to store and retrieve order information.
+## Purpose
+- The project aims to simplify order management by providing functionalities to add, update, delete, display, and save orders.
+## Data Structures
+- Order Struct: Holds customer name, product name, status, and tracking number.
+- OrderTracker Struct: Manages a vector of Order objects and provides functions to manipulate them.
+## Functions
+addOrder(const Order& order): Adds a new order.
+updateStatus(int index, const string& newStatus): Updates the status of an order by index.
+updateTrackingNumber(int index, const string& newTrackingNumber): Updates the tracking number of an order by index.
+deleteOrder(int index): Deletes an order by index.
+displayOrders(): Displays all orders.
+saveToFile(const string& filename): Saves orders to a file.
+loadFromFile(const string& filename): Loads orders from a file.
+## Usage
+Compile the code using a C++ compiler.
+Run the executable.
+Follow the menu prompts to add, update, delete, display orders, or save and exit.
+Save changes using "Save and Exit" before exiting.
+## Example
 
+
+Menu:
+1. Add Order
+2. Update Status
+3. Update Tracking Number
+4. Delete Order
+5. Display Orders
+6. Save and Exit
+Enter your choice: 1
+Enter customer name: John Doe
+Enter product name: Widget
+Enter status: Processing
+Enter tracking number: 12345
+
+Menu:
+1. Add Order
+2. Update Status
+3. Update Tracking Number
+4. Delete Order
+5. Display Orders
+6. Save and Exit
+Enter your choice: 5
+Index   Customer Name   Product Name    Status       Tracking Number
+0       John Doe        Widget          Processing   12345
  
 How to Use:
 Compile the source code using a C++ compiler.
